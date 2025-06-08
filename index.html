@@ -22,6 +22,16 @@
       <h2>Solution:</h2>
       <p id="solutionText"></p>
     </div>
+
+    <div id="conceptBox" class="hidden">
+      <h2>Concept Explained:</h2>
+      <p id="conceptText"></p>
+    </div>
+
+    <div id="practiceBox" class="hidden">
+      <h2>Practice More:</h2>
+      <ul id="practiceList"></ul>
+    </div>
   </div>
 
   <script>
@@ -29,6 +39,10 @@
     const solutionBox = document.getElementById('solutionBox');
     const solutionText = document.getElementById('solutionText');
     const loader = document.getElementById('loader');
+    const conceptBox = document.getElementById('conceptBox');
+    const conceptText = document.getElementById('conceptText');
+    const practiceBox = document.getElementById('practiceBox');
+    const practiceList = document.getElementById('practiceList');
 
     async function solveProblem() {
       const question = document.getElementById('questionInput').value.trim();
@@ -39,28 +53,46 @@
       }
 
       solutionBox.classList.add('hidden');
+      conceptBox.classList.add('hidden');
+      practiceBox.classList.add('hidden');
       loader.classList.remove('hidden');
       solveBtn.disabled = true;
       solutionText.textContent = "";
+      conceptText.textContent = "";
+      practiceList.innerHTML = "";
 
       try {
         const response = await fetch('https://ai-study-assistant-c2e0.onrender.com/solve', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ question })
         });
 
         if (!response.ok) throw new Error('Server error');
-
         const data = await response.json();
+
         solutionText.textContent = data.solution || "No solution found.";
+        solutionBox.classList.remove('hidden');
+
+        if (data.concept) {
+          conceptText.textContent = data.concept;
+          conceptBox.classList.remove('hidden');
+        }
+
+        if (data.examples && Array.isArray(data.examples)) {
+          data.examples.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = `${item.difficulty}: ${item.question}`;
+            practiceList.appendChild(li);
+          });
+          practiceBox.classList.remove('hidden');
+        }
+
       } catch (error) {
         solutionText.textContent = "An error occurred: " + error.message;
+        solutionBox.classList.remove('hidden');
       } finally {
         loader.classList.add('hidden');
-        solutionBox.classList.remove('hidden');
         solveBtn.disabled = false;
       }
     }

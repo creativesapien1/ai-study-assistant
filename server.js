@@ -19,11 +19,41 @@ app.post('/solve', async (req, res) => {
 
   try {
     const model = genAI.getGenerativeModel({ model: "models/gemini-1.5-flash" });
-    const result = await model.generateContent(question);
+
+    // 👇 Prompt Gemini to do multiple things
+    const prompt = `
+You're an AI tutor. A student asked: "${question}"
+
+1. Solve the problem.
+2. If it is a math problem, explain the core concept in 2-3 lines.
+3. Then, generate 3 practice problems of varying difficulty (easy, medium, hard) related to the same concept.
+
+Format your response as JSON like:
+{
+  "solution": "...",
+  "concept": "...",
+  "examples": [
+    { "difficulty": "Easy", "question": "..." },
+    { "difficulty": "Medium", "question": "..." },
+    { "difficulty": "Hard", "question": "..." }
+  ]
+}
+If it's not a math question, just respond with: { "solution": "..." }
+`;
+
+    const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
 
-    res.json({ solution: text });
+    // ⚠️ Try parsing as JSON (Gemini sometimes returns Markdown)
+    let clean = text.trim();
+    if (clean.startsWith("```json")) {
+      clean = clean.replace(/```json|```/g, '').trim();
+    }
+
+    const parsed = JSON.parse(clean);
+    res.json(parsed);
+
   } catch (err) {
     console.error("❌ Gemini error:", err);
     res.status(500).json({ error: "Gemini API error" });
