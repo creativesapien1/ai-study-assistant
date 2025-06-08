@@ -1,101 +1,149 @@
-/* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-
+/* General page styling */
 body {
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, #7f7fd5, #86a8e7, #91eae4);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: #fff;
   margin: 0;
-  padding: 0;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-}
-
-.container {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  width: 90%;
-  max-width: 600px;
+  padding: 20px;
   box-sizing: border-box;
-  transition: transform 0.3s ease-in-out;
 }
 
-h1 {
+/* Container */
+.container {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 30px 40px;
+  border-radius: 12px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   text-align: center;
-  color: #333;
-  font-size: 1.8rem;
 }
 
+/* Heading */
+h1 {
+  margin-bottom: 24px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  font-size: 2.5rem;
+}
+
+/* Labels */
 label {
-  font-weight: 600;
   display: block;
-  margin-top: 1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+  text-align: left;
 }
 
+/* Textarea */
 textarea {
   width: 100%;
-  padding: 1rem;
-  border-radius: 10px;
-  border: 1px solid #ccc;
   resize: vertical;
-  font-size: 1rem;
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
-  box-sizing: border-box;
-}
-
-button {
-  display: block;
-  width: 100%;
-  background-color: #4CAF50;
-  color: white;
-  padding: 1rem;
+  min-height: 100px;
+  padding: 12px 16px;
+  border-radius: 8px;
   border: none;
-  border-radius: 10px;
   font-size: 1rem;
+  font-family: inherit;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  outline: none;
+  transition: box-shadow 0.3s ease;
+}
+
+textarea:focus {
+  box-shadow: 0 0 8px 2px #a777e3;
+}
+
+/* Button */
+button {
+  background: #a777e3;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  color: #fff;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
+  transition: background 0.3s ease;
+  width: 100%;
+  max-width: 180px;
+  margin: 0 auto 24px auto;
+  display: block;
+  box-shadow: 0 4px 12px rgba(167, 119, 227, 0.6);
 }
 
-button:hover {
-  background-color: #45a049;
-  transform: translateY(-2px);
+button:disabled {
+  background: #7a5acc;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
+button:hover:not(:disabled) {
+  background: #c1a7f8;
+  box-shadow: 0 6px 18px rgba(193, 167, 248, 0.8);
+}
+
+/* Loader text */
+.loader {
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #f0e7ff;
+  text-align: center;
+}
+
+/* Hidden utility class */
+.hidden {
+  display: none !important;
+}
+
+/* Solution box */
 #solutionBox {
-  margin-top: 1.5rem;
-  padding: 1rem;
-  background: #f9f9f9;
-  border-left: 5px solid #4CAF50;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
+  padding: 20px;
+  text-align: left;
+  animation: fadeIn 0.5s ease forwards;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: #e0d8ff;
   max-height: 300px;
   overflow-y: auto;
-  transition: all 0.3s ease;
 }
 
-#solutionText {
-  white-space: pre-wrap;
-  line-height: 1.5;
+#solutionBox h2 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #d1c4ff;
 }
 
-.hidden {
-  display: none;
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@media screen and (max-width: 480px) {
+/* Responsive tweaks */
+@media (max-width: 520px) {
   .container {
-    padding: 1.5rem 1rem;
+    padding: 20px;
   }
 
   h1 {
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
 
-  textarea,
   button {
-    font-size: 0.95rem;
+    max-width: 100%;
   }
 }

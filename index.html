@@ -11,7 +11,7 @@
   <div class="container">
     <h1>AI Study Assistant</h1>
 
-    <label for="questionInput">Enter your question:</label><br/>
+    <label for="questionInput">Enter your question:</label>
     <textarea id="questionInput" rows="4" placeholder="Type a math, science, or English problem here..."></textarea>
 
     <button id="solveBtn" onclick="solveProblem()">Solve</button>
@@ -31,7 +31,6 @@
     const loader = document.getElementById('loader');
 
     async function solveProblem() {
-      console.log("Solve button clicked");
       const question = document.getElementById('questionInput').value.trim();
 
       if (!question) {
@@ -39,7 +38,6 @@
         return;
       }
 
-      // Reset UI
       solutionBox.classList.add('hidden');
       loader.classList.remove('hidden');
       solveBtn.disabled = true;
@@ -54,16 +52,11 @@
           body: JSON.stringify({ question })
         });
 
-        if (!response.ok) {
-          throw new Error('Server error');
-        }
+        if (!response.ok) throw new Error('Server error');
 
         const data = await response.json();
-        console.log("Response data:", data);
-
         solutionText.textContent = data.solution || "No solution found.";
       } catch (error) {
-        console.error("Error:", error);
         solutionText.textContent = "An error occurred: " + error.message;
       } finally {
         loader.classList.add('hidden');
