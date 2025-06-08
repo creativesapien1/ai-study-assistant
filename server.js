@@ -21,19 +21,21 @@ app.post('/solve', async (req, res) => {
     console.log("🔐 Sending request with key:", process.env.OPENROUTER_API_KEY); // For debugging in Render
 
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: 'openai/gpt-3.5-turbo',
-        messages: [
-          { role: 'system', content: 'You are a helpful AI tutor. Explain clearly and step-by-step.' },
-          { role: 'user', content: question }
-        ]
-      })
-    });
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+    'Content-Type': 'application/json',
+    'HTTP-Referer': 'https://creativesapien1.github.io',
+    'X-Title': 'AI Study Assistant'
+  },
+  body: JSON.stringify({
+    model: 'openai/gpt-3.5-turbo',
+    messages: [
+      { role: 'system', content: 'You are a helpful AI tutor. Explain clearly and step-by-step.' },
+      { role: 'user', content: question }
+    ]
+  })
+});
 
     const data = await response.json();
 
