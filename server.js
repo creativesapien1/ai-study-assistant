@@ -1,21 +1,9 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-require('dotenv').config();
-const fetch = require('node-fetch');
-
-const app = express();
-const PORT = 3000;
-
-app.use(cors());
-app.use(bodyParser.json());
-
-console.log("✅ API Key:", process.env.OPENROUTER_API_KEY ? "Loaded" : "Missing");
-console.log("🚀 Server running on http://localhost:" + PORT);
-
 app.post('/solve', async (req, res) => {
   const question = req.body.question;
   console.log("📩 Received question:", question);
+
+  // 👇 Add this line to check if API key is being read correctly
+  console.log("🔑 Sending API Key:", process.env.OPENROUTER_API_KEY);  // DEBUG LOG
 
   try {
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
@@ -43,7 +31,6 @@ app.post('/solve', async (req, res) => {
     const aiAnswer = data.choices[0].message.content;
     console.log("✅ AI Answer:", aiAnswer);
     
-    // 🔧 This is the fix!
     res.json({ solution: aiAnswer });
 
   } catch (err) {
@@ -51,5 +38,3 @@ app.post('/solve', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
-
-app.listen(PORT);
