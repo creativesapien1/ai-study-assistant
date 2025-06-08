@@ -18,14 +18,14 @@ app.post('/solve', async (req, res) => {
   console.log("📩 Received question:", question);
 
   try {
-    const model = genAI.getGenerativeModel({ model: "models/gemini-pro" }); // ✅ correct path with "models/"
+    const model = genAI.getGenerativeModel({ model: "models/gemini-1.5-flash" });
     const result = await model.generateContent(question);
     const response = await result.response;
     const text = response.text();
 
     res.json({ solution: text });
-  } catch (error) {
-    console.error("❌ Gemini error:", error);
+  } catch (err) {
+    console.error("❌ Gemini error:", err);
     res.status(500).json({ error: "Gemini API error" });
   }
 });
