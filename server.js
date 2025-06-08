@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-require('dotenv').config();
-const fetch = require('node-fetch');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -10,48 +10,29 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-console.log("✅ API Key:", process.env.OPENROUTER_API_KEY ? "Loaded" : "Missing");
+console.log("✅ API Key:", process.env.GEMINI_API_KEY ? "Loaded" : "Missing");
 console.log("🚀 Server running...");
+
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 app.post('/solve', async (req, res) => {
   const question = req.body.question;
   console.log("📩 Received question:", question);
 
   try {
-    console.log("🔐 Sending request with key:", process.env.OPENROUTER_API_KEY); // For debugging in Render
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-  method: 'POST',
-  headers: {
-    'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-    'Content-Type': 'application/json',
-    'HTTP-Referer': 'https://creativesapien1.github.io',
-    'X-Title': 'AI Study Assistant'
-  },
-  body: JSON.stringify({
-    model: 'openai/gpt-3.5-turbo',
-    messages: [
-      { role: 'system', content: 'You are a helpful AI tutor. Explain clearly and step-by-step.' },
-      { role: 'user', content: question }
-    ]
-  })
-});
+    const result = await model.generateContent(question);
+    const response = await result.response;
+    const answer = response.text();
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.error("❌ OpenRouter error:", data);
-      return res.status(500).json({ error: 'AI service error' });
-    }
-
-    const aiAnswer = data.choices[0].message.content;
-    console.log("✅ AI Answer:", aiAnswer);
-
-    res.json({ solution: aiAnswer });
+    console.log("✅ AI Answer:", answer);
+    res.json({ solution: answer });
 
   } catch (err) {
-    console.error("❌ Server error:", err.message);
-    res.status(500).json({ error: 'Server error' });
+    console.error("❌ Gemini Error:", err.message);
+    res.status(500).json({ error: "Server error" });
   }
 });
 

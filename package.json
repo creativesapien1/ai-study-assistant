@@ -1,15 +1,15 @@
 {
   "name": "ai-study-assistant",
   "version": "1.0.0",
-  "main": "scirpt.js",
+  "description": "AI Study Assistant - a helpful tool to solve academic questions using AI",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
