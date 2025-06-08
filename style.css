@@ -1,0 +1,101 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #7f7fd5, #86a8e7, #91eae4);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 600px;
+  box-sizing: border-box;
+  transition: transform 0.3s ease-in-out;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  font-size: 1.8rem;
+}
+
+label {
+  font-weight: 600;
+  display: block;
+  margin-top: 1rem;
+}
+
+textarea {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  resize: vertical;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
+
+button {
+  display: block;
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}
+
+#solutionBox {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-left: 5px solid #4CAF50;
+  border-radius: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+  transition: all 0.3s ease;
+}
+
+#solutionText {
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+.hidden {
+  display: none;
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    padding: 1.5rem 1rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  textarea,
+  button {
+    font-size: 0.95rem;
+  }
+}

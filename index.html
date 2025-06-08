@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Study Assistant</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+    <h1>AI Study Assistant</h1>
+
+    <label for="questionInput">Enter your question:</label><br/>
+    <textarea id="questionInput" rows="4" placeholder="Type a math, science, or English problem here..."></textarea>
+
+    <button id="solveBtn" onclick="solveProblem()">Solve</button>
+
+    <div id="loader" class="loader hidden">Solving... ⏳</div>
+
+    <div id="solutionBox" class="hidden">
+      <h2>Solution:</h2>
+      <p id="solutionText"></p>
+    </div>
+  </div>
+
+  <script>
+    const solveBtn = document.getElementById('solveBtn');
+    const solutionBox = document.getElementById('solutionBox');
+    const solutionText = document.getElementById('solutionText');
+    const loader = document.getElementById('loader');
+
+    async function solveProblem() {
+      console.log("Solve button clicked");
+      const question = document.getElementById('questionInput').value.trim();
+
+      if (!question) {
+        alert("Please enter a question.");
+        return;
+      }
+
+      // Reset UI
+      solutionBox.classList.add('hidden');
+      loader.classList.remove('hidden');
+      solveBtn.disabled = true;
+      solutionText.textContent = "";
+
+      try {
+        const response = await fetch('http://localhost:3000/solve', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ question })
+        });
+
+        if (!response.ok) {
+          throw new Error('Server error');
+        }
+
+        const data = await response.json();
+        console.log("Response data:", data);
+
+        solutionText.textContent = data.solution || "No solution found.";
+      } catch (error) {
+        console.error("Error:", error);
+        solutionText.textContent = "An error occurred: " + error.message;
+      } finally {
+        loader.classList.add('hidden');
+        solutionBox.classList.remove('hidden');
+        solveBtn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
