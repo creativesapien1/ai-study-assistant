@@ -127,6 +127,106 @@ button:hover:not(:disabled) {
   color: #d1c4ff;
 }
 
+/* Upload/Scan section */
+.upload-section {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.upload-section label {
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.upload-section input[type="file"] {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  color: #fff;
+}
+
+.upload-section button {
+  margin: 0 0 10px 0;
+}
+
+#scanStatus {
+  font-size: 0.95rem;
+  color: #e0d8ff;
+  margin-top: 5px;
+  text-align: center;
+}
+
+/* Image preview in upload section */
+#imagePreview {
+  display: block;
+  max-width: 100%;
+  max-height: 180px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 2px solid rgba(167, 119, 227, 0.6);
+  object-fit: contain;
+}
+
+/* Practice box */
+#practiceBox {
+  background: rgba(167, 119, 227, 0.15);
+  border-radius: 10px;
+  padding: 15px 20px;
+  margin-top: 20px;
+  text-align: left;
+  max-height: 200px;
+  overflow-y: auto;
+  color: #f0e7ff;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+#practiceBox h2 {
+  color: #c1a7f8;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1.3rem;
+}
+
+#practiceList {
+  padding-left: 20px;
+  margin: 0;
+  list-style-type: disc;
+}
+
+#practiceList li {
+  margin-bottom: 8px;
+  padding-left: 8px;
+  cursor: default;
+  transition: color 0.3s ease;
+}
+
+#practiceList li:hover {
+  color: #d1c4ff;
+}
+
+/* Concept box */
+#conceptBox {
+  background: rgba(167, 119, 227, 0.15);
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: left;
+  color: #f0e7ff;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+#conceptBox h2 {
+  color: #c1a7f8;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1.3rem;
+}
+
 /* Fade-in animation */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }

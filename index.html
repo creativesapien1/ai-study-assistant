@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AI Study Assistant</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.5/dist/tesseract.min.js"></script>
 </head>
 <body>
 
@@ -15,6 +16,14 @@
     <textarea id="questionInput" rows="4" placeholder="Type a math, science, or English problem here..."></textarea>
 
     <button id="solveBtn" onclick="solveProblem()">Solve</button>
+
+    <div class="upload-section">
+      <label for="imageInput">📸 Or upload an image of your question:</label>
+      <input type="file" id="imageInput" accept="image/*" onchange="previewImage()" />
+      <img id="imagePreview" class="hidden" alt="Image Preview" />
+      <button onclick="scanImage()">Scan Image</button>
+      <p id="scanStatus"></p>
+    </div>
 
     <div id="loader" class="loader hidden">Solving... ⏳</div>
 
@@ -43,6 +52,7 @@
     const conceptText = document.getElementById('conceptText');
     const practiceBox = document.getElementById('practiceBox');
     const practiceList = document.getElementById('practiceList');
+    const scanStatus = document.getElementById('scanStatus');
 
     async function solveProblem() {
       const question = document.getElementById('questionInput').value.trim();
@@ -95,6 +105,52 @@
         loader.classList.add('hidden');
         solveBtn.disabled = false;
       }
+    }
+
+    function previewImage() {
+      const file = document.getElementById('imageInput').files[0];
+      const preview = document.getElementById('imagePreview');
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          preview.src = e.target.result;
+          preview.classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    async function scanImage() {
+      const imageInput = document.getElementById('imageInput');
+      if (!imageInput.files.length) {
+        alert("Please upload an image first.");
+        return;
+      }
+
+      scanStatus.textContent = "🔍 Scanning image for text...";
+      const file = imageInput.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function () {
+        Tesseract.recognize(
+          reader.result,
+          'eng',
+          {
+            logger: m => {
+              console.log(m);
+              scanStatus.textContent = `🔄 ${m.status} (${Math.round(m.progress * 100)}%)`;
+            }
+          }
+        ).then(({ data: { text } }) => {
+          document.getElementById('questionInput').value = text.trim();
+          scanStatus.textContent = "✅ Text extracted!";
+        }).catch(err => {
+          console.error(err);
+          scanStatus.textContent = "❌ Failed to extract text.";
+        });
+      };
+
+      reader.readAsDataURL(file);
     }
   </script>
 </body>
